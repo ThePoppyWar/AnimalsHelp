@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Karma{% endblock title %}
+{% block content %}
+    <h1>Nasze zwierzęta</h1>
+
+    {% for obj in food_list %}
+   <li> {{obj.name}}--{{ obj.stan }} kg -- {{ obj.get_type_display }} <a href='food/{{ obj.id }}/'><input type="submit" value="edytuj"></a> </li>
+    {% endfor obj %}
+    <a href="{% url 'add_food' %}"><input type="submit" value="Dodaj karmę"></a>
+{% endblock content %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}{{ object.name }}{% endblock title %}
+{% block content %}
+    <h1>{{ object.name }}</h1>
+    <h2>{{ object.get_species_display}}</h2>
+    <h3>{{ object.get_health_display}}</h3>
+    <h3>{{ object.get_status_display}}</h3>
+    <input type="submit" value="Edytuj">
+    <input type="submit" value="Usuń">
+{% endblock content %}

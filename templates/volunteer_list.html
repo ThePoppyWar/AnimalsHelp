@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Nasi Wolontariusze{% endblock title %}
+{% block content %}
+    <h1>Nasi Wolontariusze</h1>
+    <h2>{% include 'list_view.html' with objects_list=volunteer_list %}</h2>
+{% endblock content %}

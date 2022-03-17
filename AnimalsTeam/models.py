@@ -1,5 +1,6 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -54,6 +55,13 @@ class Animals(models.Model):
     health = models.IntegerField(choices=HEALTH)
     status = models.IntegerField(choices=STATUS_ADOPTION)
 
+    def __str__(self):
+        return f"{self.name}"
+
+
+    def get_absolute_url(self):
+        return reverse('animal_detail_view', args=(self.pk,))
+
 class Personel(models.Model):
     name = models.CharField(max_length=60)
     last_name = models.CharField(max_length=120)
@@ -62,6 +70,13 @@ class Personel(models.Model):
     description = models.CharField(max_length=500)
     animals = models.ManyToManyField(Animals, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
+
+    def get_absolute_url(self):
+        return reverse('personel_detail_view', args=(self.pk,))
+
 
 class Adopter(models.Model):
     name = models.CharField(max_length=60)
@@ -82,11 +97,19 @@ class Vet(models.Model):
     specialization = models.IntegerField(choices=SPECIALIZATION)
     animals = models.ManyToManyField(Animals, blank=True)
 
+    def __str__(self):
+        return f"{self.name} {self.last_name} {self.specialization}"
+
+    def get_absolute_url(self):
+        return reverse('vet_detail_view', args=(self.pk,))
+
 class Food(models.Model):
     name = models.CharField(max_length=60)
     type = models.IntegerField(choices=TYPE_OF_FOOD)
     stan = models.IntegerField()
 
+    def __str__(self):
+        return f"{self.stan} {self.name} {self.type}"
 
 
 

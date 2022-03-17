@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Nasze Zwierzeta{% endblock title %}
+{% block content %}
+    <h1>Nasze zwierzęta</h1>
+    <h2>{% include 'list_view.html' with objects_list=animals_list %}</h2>
+{% endblock content %}

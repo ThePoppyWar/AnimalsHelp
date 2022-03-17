@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}{{ object.name }} {{ object.last_name }}{% endblock title %}
+{% block content %}
+    <h1>{{ object.name }} {{ object.last_name }}</h1>
+    <h3>Data dołączenia:</h3>
+    <h2>{{ object.join_date}}</h2>
+    <h3>O mnie:</h3>
+    <p>{{ object.description}}</p>
+    <input type="submit" value="Usuń">
+{% endblock content %}
