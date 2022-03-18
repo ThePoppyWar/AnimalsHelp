@@ -5,7 +5,7 @@ from django.urls import reverse
 # Create your models here.
 
 ROLE = (
-    (1, "inspektor"),
+    (1, 'adopter'),
     (2, "volunteer"),
 )
 
@@ -49,6 +49,7 @@ TYPE_OF_FOOD = (
     (2, "animal feed")
 )
 
+
 class Animals(models.Model):
     name = models.CharField(max_length=60, unique=True)
     species = models.IntegerField(choices=SPECIES)
@@ -58,9 +59,9 @@ class Animals(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-
     def get_absolute_url(self):
         return reverse('animal_detail_view', args=(self.pk,))
+
 
 class Personel(models.Model):
     name = models.CharField(max_length=60)
@@ -72,24 +73,33 @@ class Personel(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.username
+        return f'{self.name}{self.last_name}'
 
     def get_absolute_url(self):
         return reverse('personel_detail_view', args=(self.pk,))
 
+    def get_absolute_url1(self):
+        return reverse('adopter_detail_view', args=(self.pk,))
 
-class Adopter(models.Model):
-    name = models.CharField(max_length=60)
-    last_name = models.CharField(max_length=120)
-    address = models.CharField(max_length=120)
-    animal = models.ManyToManyField(Animals, blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+# class Adopter(models.Model):
+#     name = models.CharField(max_length=60)
+#     last_name = models.CharField(max_length=120)
+#     address = models.CharField(max_length=120)
+#     animal = models.ManyToManyField(Animals, blank=True)
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#
+#     def __str__(self):
+#         return f'{self.name} {self.last_name}'
+#
+#     def get_absolute_url(self):
+#         return reverse('adopter_detail_view', args=(self.pk,))
 
 class Adoption(models.Model):
     animal = models.ForeignKey(Animals, on_delete=models.CASCADE)
-    adopter = models.ForeignKey(Adopter, on_delete=models.CASCADE)
+    adopter = models.ForeignKey(Personel, on_delete=models.CASCADE)
     status = models.IntegerField(choices=STATUS_ADOPTER)
-    date_adoption = models.DateField()
+
 
 class Vet(models.Model):
     name = models.CharField(max_length=60)
@@ -98,10 +108,11 @@ class Vet(models.Model):
     animals = models.ManyToManyField(Animals, blank=True)
 
     def __str__(self):
-        return f"{self.name} {self.last_name} {self.specialization}"
+        return f"{self.name} {self.last_name}"
 
     def get_absolute_url(self):
         return reverse('vet_detail_view', args=(self.pk,))
+
 
 class Food(models.Model):
     name = models.CharField(max_length=60)
@@ -111,6 +122,5 @@ class Food(models.Model):
     def __str__(self):
         return f"{self.stan} {self.name} {self.type}"
 
-
-
-
+    def get_absolute_url(self):
+        return reverse('food_detail_view', args=(self.pk,))

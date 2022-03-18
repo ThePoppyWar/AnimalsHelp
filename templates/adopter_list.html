@@ -2,6 +2,8 @@
 {% block title %}Adopter{% endblock title %}
 {% block content %}
     <h1>Osoby Adoptujace</h1>
-    <h2>{% include 'list_view.html' with objects_list=adoption %}</h2>
-
+    {% for obj in adopter_list %}
+        <li><a href="{{ obj.get_absolute_url1 }}">{{ obj }}</a></li>
+    {% endfor obj %}
 {% endblock content %}
+

@@ -25,7 +25,7 @@ class LoginView(View):
             if user is not None:
                 login(request, user)
             else:
-                return HttpResponse('You not pass')
+                return HttpResponse('You not pass. Login or password is not correct')
             return redirect('index')
 
 

@@ -4,7 +4,7 @@
     <h1>Nasze zwierzęta</h1>
 
     {% for obj in food_list %}
-   <li> {{obj.name}}--{{ obj.stan }} kg -- {{ obj.get_type_display }} <a href='food/{{ obj.id }}/'><input type="submit" value="edytuj"></a> </li>
+   <li> <a href="{{ obj.get_absolute_url }}">{{obj.name}}</a>--{{ obj.stan }} kg -- {{ obj.get_type_display }}  </li>
     {% endfor obj %}
-    <a href="{% url 'add_food' %}"><input type="submit" value="Dodaj karmę"></a>
+    <a href="{% url 'add_food' %}"><input type="submit" value="Add feed"></a>
 {% endblock content %}

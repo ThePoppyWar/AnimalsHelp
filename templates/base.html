@@ -14,26 +14,48 @@
 <div class="topnav">
     <a class="active" href="{% url 'index' %}">Home</a>
     {#    <a href="{% url 'about_as' %}">O Nas</a>#}
-    <a href="{% url 'all_animals' %}">Nasi Podopieczni</a>
-    <a href="{% url 'add_animals' %}">Dodaj Podopiecznego</a>
+    <a href="{% url 'all_animals' %}">Our Animals</a>
+    <a href="{% url 'add_animals' %}">Add Animal</a>
+
     {#    <a href="{% url 'about_keeper' %}">Opiekunowie</a>#}
-    <a href="{% url 'about_volunteers' %}">Wolontariusze</a>
-    <a href="{% url 'add_volunteers' %}">Zapisz się na wolontariat</a>
-    {#    <a href="{% url 'add_presonel' %}">Zapisz się na pracy</a>#}
-    <a href="{% url 'all_vet' %}">Weterynarze</a>
-    {#    <a href="{% url 'add_adoption' %}">Zapisz się do adopcji</a>#}
-    <a href="{% url 'food' %}">Nasze zasoby żywieniowe</a>
+    <a href="{% url 'about_volunteers' %}">Volunteers</a>
+    <a href="{% url 'add_volunteers' %}">Sing up for volunteering</a>
+
+    <a href="{% url 'adopter_list' %}">Adopters</a>
+    <a href="{% url 'add_adopter' %}">Sing up for adoption</a>
+    <a href="{% url 'adoption_list' %}">Found a new House</a>
+    <a href="{% url 'add_adoption' %}">Adoption</a>
+
+
+    <a href="{% url 'all_vet' %}">Our Vets</a>
+    <a href="{% url 'add_vet_view' %}">Add Vet</a>
+    <a href="{% url 'food' %}">Our Supply</a>
     {% if user.is_authenticated %}
         <a href="{% url 'logout' %}">Logout</a>
     {% else %}
         <a href="{% url 'login' %}">Login</a>
         <a href="{% url 'register' %}">Register</a>
     {% endif %}
-    {#    <a href="{% url 'kontakt' %}">Kontakt</a>#}
+    <a href="{% url 'contact' %}">Contact</a>
 </div>
 {{ user }}
 <div class="contener">
     {% block content %} {% endblock content %}
 </div>
 </body>
+
+<div class="contener">
+    {% block text %}
+    <p>"If you want to be great, just help."</p>
+    <p>We are a non-profit organization. We help the animal to recover and to lay a new home. </p>
+    <p>Do you want to help? Sign up for volunteering. It's the greatest job in the world.</p>
+    <p>Want to give a new home? Sign up for adoption.</p>
+    <p>If you want to support us otherwise, you may bring the humiliating information to the address you provided in contact:</p>
+    <li>emergency animal feed</li>
+    <li>hay</li>
+    <li>blankets</li>
+    <li>blankets</li>
+    <li>pens for animals</li>
+    <li>towels, leashes, bowls, toys</li>
+{% endblock text %}
 </html>

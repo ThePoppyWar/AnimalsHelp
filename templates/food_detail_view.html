@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block title %} {{ object.name }}{% endblock title %}
 {% block content %}
-    <form method="post" action="food_list.html">
-    {% csrf_token %}
-    <p>{{ object.name}} </p>
-        <p><input type="text" name="{{ object.stan }} ">  kg</p>
-    <p>{{ object.stan }}</p>
-    <a href="{% url 'food' %}"><input type="submit" value="Zmień"></a>
-    </form>
+        <h3>Name feed</h3>
+        <p>{{ object.name }}</p>
+        <h3>Current amount</h3>
+        <p>{{ object.stan }} kg</p>
+        <h3>Type of feed</h3>
+        <p>{{ object.get_type_display}}</p>
+        <a href="{% url 'food_edite_view' object.id %}"><input type="submit" value="Change"></a>
 {% endblock content %}
