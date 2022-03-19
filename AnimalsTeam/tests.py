@@ -87,14 +87,26 @@ def test_Adopters(client, adopters):
 
 # nie działa
 @pytest.mark.django_db
-def test_adoptions_view(user, client, adoptions):
+def test_adoptions_view(db, user_A, client, adoptions):
     url = reverse('adoption_list')
+    client.force_login(user_A)
     response = client.get(url)
     assert response.status_code == 200
     context = response.context
     assert context["adoption_list"].count() == len(adoptions)
     for item in adoptions:
         assert item in context['adoption_list']
+
+# nie działa
+# @pytest.mark.django_db
+# def test_adoptions_view(user):
+#     url = reverse('adoption_list')
+#     c = Client()
+#     c.login(username=user.username, password='Polska1992')
+#     response = c.get(url)
+#     assert response.status_code == 200
+
+
 
 # działa
 @pytest.mark.django_db
@@ -110,9 +122,9 @@ def test_vet_view(client, vets):
 
 # add vet działa
 @pytest.mark.django_db
-def test_vet_add_view_with_login(superuser, client, animals):
+def test_vet_add_view_with_login(db, user_A, client, animals):
     url = reverse('add_vet_view')
-    client.force_login(superuser)
+    client.force_login(user_A)
     response = client.get(url)
     assert response.status_code == 200
     dct = {
@@ -240,9 +252,9 @@ def test_contact(client):
 
 
 @pytest.mark.django_db
-def test_delete_vet_view(user, client, vet):
+def test_delete_vet_view(db, user_A, client, vet):
     url = reverse('vet_delete_view', args=(vet.id,))
-    client.force_login(user)
+    client.force_login(user_A)
     response = client.get(url)
     assert response.status_code == 200
     client.post(url)
@@ -251,12 +263,12 @@ def test_delete_vet_view(user, client, vet):
 
 
 @pytest.mark.django_db
-def test_delete_adoption_view(user, client, adoption):
+def test_delete_adoption_view(db, user_A, client, adoption):
     url = reverse('delete_adoption', args=(adoption.id,))
-    client.force_login(user)
+    client.force_login(user_A)
     response = client.get(url)
     assert response.status_code == 200
     client.post(url)
-    with pytest.raises(Vet.DoesNotExist):
+    with pytest.raises(Adoption.DoesNotExist):
         Adoption.objects.get(pk=adoption.id)
 

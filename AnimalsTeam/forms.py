@@ -42,8 +42,10 @@ class AdoptionModelForm(forms.ModelForm):
     def clean(self):
         data = super().clean()
         animal = data.get('animal')
-        if animal in Adoption.objects.all():
-            raise ValidationError('You have already saved')
+        all_adoptions = Adoption.objects.all()
+        for el in all_adoptions:
+            if el.animal.name == animal.name:
+                raise ValidationError('You have already saved')
 
 
 def check_if_superuser(value):

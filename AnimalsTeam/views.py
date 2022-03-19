@@ -13,7 +13,7 @@ from AnimalsTeam.models import Animals, Personel, Vet, Food, Adoption
 # work
 class Index(View):
     def get(self, request):
-        return render(request, 'base.html')
+        return render(request, 'index.html')
 
 
 # work

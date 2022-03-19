@@ -11,21 +11,31 @@ def client():
     client = WebClient()
     return client
 
-@pytest.fixture
-def superuser():
-    u = User.objects.create_user(username='testowy')
-    u.set_password('testujemyto1')
-    u.save()
-    permission = Permission.objects.get(name="AnimalTeam.add_adoption")
-    u.user_permissions.add(permission)
-    return u
+
 
 @pytest.fixture
 def user():
     u = User.objects.create(username='test')
     u.set_password('testujemyto1')
+    user.is_superuser = True
+    user.is_staff = True
     u.save()
     return u
+
+
+@pytest.fixture
+def user_A(db):
+    user = User.objects.create_user(
+        username="A",
+        password="secret",
+        first_name="haki",
+        last_name="benita",
+        email="me@hakibenita.com",
+        is_staff=True,
+        is_superuser=True,
+        is_active=True,
+    )
+    return user
 
 
 @pytest.fixture
@@ -40,7 +50,7 @@ def users():
 @pytest.fixture
 def animals():
     lst = []
-    a = Animals.objects.create(name="Cziko", species=2, health=1, status=3)
+    a = Animals.objects.create(name="Maciuś", species=2, health=1, status=3)
     lst.append(a)
     a = Animals.objects.create(name="Malinka", species=1, health=3, status=2)
     lst.append(a)
@@ -128,12 +138,15 @@ def vets(animals):
 
 @pytest.fixture
 def adoption(animal, adopter):
-    adoption = Adoption.objects.create(animal=animal, adopter=adopter, status=1)eturn adoption
+    adoption = Adoption.objects.create(animal=animal, adopter=adopter, status=1)
+    return adoption
+
 
 @pytest.fixture
 def adoptions(animal, adopter):
     lst = []
-    for adoption in range(5):
-        lst.append(Adoption.objects.create(animal=animal, adopter=adopter, status=1))
+    v = Adoption.objects.create(animal=animal, adopter=adopter, status=1)
+    lst.append(v)
+    v = Adoption.objects.create(animal=animal, adopter=adopter, status=1)
+    lst.append(v)
     return lst
-
