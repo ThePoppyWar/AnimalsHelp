@@ -48,6 +48,7 @@ class UserCreationView(CreateView):
         return ret_val
 
 
+
 class UserPermissionView(View):
     def get(self, request, id):
         user = User.objects.get(pk=id)

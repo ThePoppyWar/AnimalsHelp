@@ -3,7 +3,7 @@ from django.test import TestCase, Client
 
 from django.urls import reverse
 # Create your tests here.
-from AnimalsTeam.models import Animals, Personel, Food
+from AnimalsTeam.models import Animals, Personel, Food, Vet, Adoption
 
 
 def test_index(client):
@@ -85,6 +85,45 @@ def test_Adopters(client, adopters):
     for item in adopters:
         assert item in context['adopter_list']
 
+# nie działa
+@pytest.mark.django_db
+def test_adoptions_view(user, client, adoptions):
+    url = reverse('adoption_list')
+    response = client.get(url)
+    assert response.status_code == 200
+    context = response.context
+    assert context["adoption_list"].count() == len(adoptions)
+    for item in adoptions:
+        assert item in context['adoption_list']
+
+# działa
+@pytest.mark.django_db
+def test_vet_view(client, vets):
+    url = reverse('all_vet')
+    response = client.get(url)
+    assert response.status_code == 200
+    context = response.context
+    assert context['vet_list'].count() == len(vets)
+    for item in vets:
+        assert item in context['vet_list']
+
+
+# add vet działa
+@pytest.mark.django_db
+def test_vet_add_view_with_login(superuser, client, animals):
+    url = reverse('add_vet_view')
+    client.force_login(superuser)
+    response = client.get(url)
+    assert response.status_code == 200
+    dct = {
+        'name': "Marek",
+        "last_name": "Kowalski",
+        'specialization': 2,
+        'animals': [x.id for x in animals],
+    }
+    client.post(url, dct)
+    assert Vet.objects.first()
+
 
 # add volunteer
 @pytest.mark.django_db
@@ -149,32 +188,75 @@ def test_food_detail_view(client, food):
     response = client.get(url)
     assert response.status_code == 200
 
+
 # animal detail
 @pytest.mark.django_db
 def test_animals_detail_view(client, animal):
-    url = reverse('animal_detail_view', args=(animal.id, ))
+    url = reverse('animal_detail_view', args=(animal.id,))
     dct = {
         'animal': animal.id,
     }
     response = client.get(url, dct)
     assert response.status_code == 200
 
+
 # detail volunteer
 @pytest.mark.django_db
 def test_volunteer_detail_view(client, volunteer):
-    url = reverse('personel_detail_view', args=(volunteer.id, ))
+    url = reverse('personel_detail_view', args=(volunteer.id,))
     dct = {
         'volunteer': volunteer.id,
     }
     response = client.get(url, dct)
     assert response.status_code == 200
 
+
 # detail adopter
 @pytest.mark.django_db
 def test_adopter_detail_view(client, adopter):
-    url = reverse('adopter_detail_view', args=(adopter.id, ))
+    url = reverse('adopter_detail_view', args=(adopter.id,))
     dct = {
         'adopter': adopter.id,
     }
     response = client.get(url, dct)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_vet_detail_view(client, vet):
+    url = reverse('vet_detail_view', args=(vet.id,))
+    dct = {
+        'vet': vet.id
+    }
+    response = client.get(url, dct)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_contact(client):
+    url = reverse('contact')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_delete_vet_view(user, client, vet):
+    url = reverse('vet_delete_view', args=(vet.id,))
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
+    client.post(url)
+    with pytest.raises(Vet.DoesNotExist):
+        Vet.objects.get(pk=vet.id)
+
+
+@pytest.mark.django_db
+def test_delete_adoption_view(user, client, adoption):
+    url = reverse('delete_adoption', args=(adoption.id,))
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
+    client.post(url)
+    with pytest.raises(Vet.DoesNotExist):
+        Adoption.objects.get(pk=adoption.id)
+

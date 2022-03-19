@@ -4,4 +4,7 @@
     <h1>{{ object.name }}</h1>
     <h1>{{ object.last_name }}</h1>
     <h2>{{ object.get_specialization_display}}</h2>
+    {% if perms.AnimalTeam.add_vet %}
+    <a href="{% url 'vet_delete_view' object.id %}"><input type="submit" value="Delete"></a>
+    {% endif %}
 {% endblock content %}

@@ -1,15 +1,40 @@
 import pytest
 # from django.contrib.auth.models import User
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.test import Client as WebClient
 
-from AnimalsTeam.models import Animals, Personel, Food
+from AnimalsTeam.models import Animals, Personel, Food, Vet, Adoption
 
 
 @pytest.fixture
 def client():
     client = WebClient()
     return client
+
+@pytest.fixture
+def superuser():
+    u = User.objects.create_user(username='testowy')
+    u.set_password('testujemyto1')
+    u.save()
+    permission = Permission.objects.get(name="AnimalTeam.add_adoption")
+    u.user_permissions.add(permission)
+    return u
+
+@pytest.fixture
+def user():
+    u = User.objects.create(username='test')
+    u.set_password('testujemyto1')
+    u.save()
+    return u
+
+
+@pytest.fixture
+def users():
+    x = []
+    for k in range(5):
+        x.append(User.objects.create(username=k))
+
+    return x
 
 
 @pytest.fixture
@@ -28,23 +53,6 @@ def animals():
 def animal():
     animal = Animals.objects.create(name="Cziko", species=2, health=1, status=3)
     return animal
-
-
-@pytest.fixture
-def user():
-    u = User.objects.create(username='test')
-    u.set_password('testujemyto1')
-    u.save()
-    return u
-
-
-@pytest.fixture
-def users():
-    x = []
-    for k in range(5):
-        x.append(User.objects.create(username=k))
-
-    return x
 
 
 @pytest.fixture
@@ -101,3 +109,31 @@ def adopter(user, animals):
                                       description='Cośtam', user=user)
     adopter.animals.set(animals)
     return adopter
+
+
+@pytest.fixture
+def vet(animals):
+    vet = Vet.objects.create(name='Angelika', last_name='Zięba', specialization=1)
+    vet.animals.set(animals)
+    return vet
+
+
+@pytest.fixture
+def vets(animals):
+    lst = []
+    for vet in range(5):
+        lst.append(Vet.objects.create(name='Angelika', last_name='Zięba', specialization=1))
+    return lst
+
+
+@pytest.fixture
+def adoption(animal, adopter):
+    adoption = Adoption.objects.create(animal=animal, adopter=adopter, status=1)eturn adoption
+
+@pytest.fixture
+def adoptions(animal, adopter):
+    lst = []
+    for adoption in range(5):
+        lst.append(Adoption.objects.create(animal=animal, adopter=adopter, status=1))
+    return lst
+

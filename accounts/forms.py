@@ -10,7 +10,12 @@ class LoginForm(forms.Form):
 
 def pass_length_validation(value):
     if len(value) < 8:
-        raise ValidationError("Password too short")
+        raise ValidationError("Password too short. Password should be at least 8 characters")
+
+
+def username_unique(username):
+    if User.objects.filter(username=username):
+        raise ValidationError('This login is already busy')
 
 
 class UserCreationForm(forms.ModelForm):

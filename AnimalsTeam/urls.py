@@ -30,6 +30,7 @@ urlpatterns = [
     path('vet/', views.VetView.as_view(), name='all_vet'),
     path('add_vet/', views.VetCreate.as_view(), name='add_vet_view'),
     path('vet/<int:pk>/', views.VetDetailView.as_view(), name='vet_detail_view'),
+    path('vet_delete/<int:pk>/', views.VetDeleteView.as_view(), name='vet_delete_view'),
 
     path('food', views.FoodView.as_view(), name='food'),
     path('add_food', views.FoodCreateView.as_view(), name='add_food'),
@@ -42,6 +43,7 @@ urlpatterns = [
 
     path('adoption/', views.AdoptionView.as_view(), name='adoption_list'),
     path('add_adoption/', views.AdoptionCreateView.as_view(), name='add_adoption'),
+    path('adoption_delete/<int:pk>', views.AdoptionDeleteView.as_view(), name='delete_adoption'),
 
     path('contact/', views.Contact.as_view(), name='contact')
 ]

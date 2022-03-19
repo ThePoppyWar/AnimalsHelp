@@ -23,7 +23,6 @@ class PersonelForm(forms.ModelForm):
             raise ValidationError('You have already saved')
 
 
-
 class AdopterForm(forms.ModelForm):
     class Meta:
         model = Personel
@@ -34,17 +33,23 @@ class AdopterForm(forms.ModelForm):
         if hasattr(self.user, 'personel'):
             raise ValidationError('You have already saved')
 
-    def chcec_adopter(self, adopter):
-        a = adopter.id
-        if adopter == a:
-            return ValidationError('You have already saved')
-
 
 class AdoptionModelForm(forms.ModelForm):
     class Meta:
         model = Adoption
         fields = '__all__'
 
+    def clean(self):
+        data = super().clean()
+        animal = data.get('animal')
+        if animal in Adoption.objects.all():
+            raise ValidationError('You have already saved')
+
+
+def check_if_superuser(value):
+    a = ['superAna2']
+    if value is not a:
+        raise ValidationError('You do not have authorize')
 
 
 class VetForm(forms.ModelForm):
