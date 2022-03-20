@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Adopcje {% endblock title %}
 {% block content %}
-    <h1>Adopcje</h1>
+    <h1>Adoption</h1>
     <ul>
         {% for obj in adoption_list %}
             <li><h3>{{ obj.animal }}</h3> adopted to <b>{{ obj.adopter }}</b> status adoption

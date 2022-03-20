@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Adopter{% endblock title %}
 {% block content %}
-    <h1>Osoby Adoptujace</h1>
+    <h1>Our Adopters</h1>
     {% for obj in adopter_list %}
         <li><a href="{{ obj.get_absolute_url1 }}">{{ obj }}</a></li>
     {% endfor obj %}
