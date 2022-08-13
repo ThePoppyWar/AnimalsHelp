@@ -32,8 +32,8 @@ admin panel
 
 First you should clone this repository:
 
-   git clone https://github.com/ThePoppyWar/AnimalsHelp.git
-   cd AnimalsHelp
+    git clone https://github.com/ThePoppyWar/AnimalsHelp.git
+    cd AnimalsHelp
 
 To run the project you should have Python 3 installed on your computer. Then it's recommended to create a virtual environment for your projects dependencies. To install virtual environment:
 
